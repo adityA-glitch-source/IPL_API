@@ -27,3 +27,28 @@ Python – Data analysis with Pandas
 Flask – REST API framework
 
 Dataset – All IPL matches (2008–2022)
+
+📂 Project Structure
+IPL_API/
+│── app.py              # Flask app with API endpoints
+│── ipl.py              # Data analysis functions (Pandas)
+│── requirements.txt    # Project dependencies
+│── README.md           # Project documentation
+│── dataset/ipl.csv     # IPL dataset (2008–2022)
+
+✨ Future Improvements
+
+Add player-wise statistics APIs.
+
+Build a frontend dashboard for visualization.
+
+Deploy the API on cloud (Heroku / Render / AWS).
+
+🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+Feel free to fork this repo and create a PR.
+
+📜 License
+
+This project is licensed under the MIT License.
