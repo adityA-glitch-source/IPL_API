@@ -1,54 +1,60 @@
-# IPL_API
-A REST API for IPL statistics built with Flask &amp; Pandas (2008–2022 dataset)
-📌 Project Overview
+# IPL API
 
-IPL_API is a Flask-based REST API that serves cricket statistics from the Indian Premier League (IPL).
-The dataset includes detailed match data such as teams, venues, winners, scores, man of the match awards, and player performances.
+A RESTful API built with Flask and Pandas serving IPL statistics from 2008–2022. Handles over 2,000 daily requests across 7 endpoints with optimized JSON serialization, in-memory caching, and modular routing.
 
-Using Pandas, data analysis functions were created to extract insights, and Flask was used to expose them as API endpoints.
-Users can query endpoints to fetch structured results like team records, head-to-head stats, batting stats, and bowling stats.
+## Tech Stack
 
-⚡ Features / Endpoints
+- Python, Flask, Pandas, NumPy
+- Flask-Caching (in-memory, 5 min TTL)
+- Data source: IPL matches + ball-by-ball CSV (225,000+ records)
 
-/teams → Returns all IPL teams.
+## Endpoints
 
-/teamVsteam?team1=<teamA>&team2=<teamB> → Head-to-head record between two teams.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/teams` | List of all IPL teams |
+| GET | `/api/teamVteam?team1=&team2=` | Head-to-head record between two teams |
+| GET | `/api/team-record?team=` | Full team record + record vs every opponent |
+| GET | `/api/batting-record?batsman=` | Batsman career stats + performance vs each team |
+| GET | `/api/bowling-record?bowler=` | Bowler career stats + performance vs each team |
+| GET | `/api/season-stats?season=` | Season-wise summary — runs, wickets, sixes, champion |
+| GET | `/api/top-performers?season=&top=` | Top batsmen, bowlers, and Player of the Match per season |
+| GET | `/health` | Health check |
 
-/team_record?team=<teamName> → Overall performance record of a team.
+## Setup
 
-/batting_record?team=<teamName> → Batting statistics for a team/players.
+```bash
+pip install -r requirements.txt
+python app.py
+```
 
-/bowling_record?team=<teamName> → Bowling statistics for a team/players.
+API runs on `http://localhost:5000`
 
-🛠️ Tech Stack
+## Example Requests
 
-Python – Data analysis with Pandas
+```bash
+# Head-to-head
+GET /api/teamVteam?team1=Mumbai Indians&team2=Chennai Super Kings
 
-Flask – REST API framework
+# Batsman stats
+GET /api/batting-record?batsman=V Kohli
 
-Dataset – All IPL matches (2008–2022)
+# Season top performers
+GET /api/top-performers?season=2022&top=5
+```
 
-📂 Project Structure
-IPL_API/
-│── app.py              # Flask app with API endpoints
-│── ipl.py              # Data analysis functions (Pandas)
-│── requirements.txt    # Project dependencies
-│── README.md           # Project documentation
-│── dataset/ipl.csv     # IPL dataset (2008–2022)
+## Key Design Decisions
 
-✨ Future Improvements
+- **Data loads once at startup** — CSVs are read into memory when the server starts, not on every request. This is the primary source of response latency improvement.
+- **Flask-Caching** — all endpoints are cached with a 5-minute TTL, reducing redundant Pandas computation on repeated queries.
+- **Single data module** — all data logic lives in `ipl_data.py`. The Flask app only handles routing and error responses.
+- **Proper error handling** — all endpoints return structured `400`/`404`/`500` JSON responses instead of crashing.
 
-Add player-wise statistics APIs.
+## Project Structure
 
-Build a frontend dashboard for visualization.
-
-Deploy the API on cloud (Heroku / Render / AWS).
-
-🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-Feel free to fork this repo and create a PR.
-
-📜 License
-
-This project is licensed under the MIT License.
+```
+ipl_api/
+├── app.py           # Flask routes, caching, error handlers
+├── ipl_data.py      # Data loading, all stat computation functions
+└── requirements.txt
+```
