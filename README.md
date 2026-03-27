@@ -2,6 +2,8 @@
 
 A RESTful API built with Flask and Pandas serving IPL statistics from 2008–2022. Handles over 2,000 daily requests across 7 endpoints with optimized JSON serialization, in-memory caching, and modular routing.
 
+**Live URL:** https://ipl-api-t4ek.onrender.com
+
 ## Tech Stack
 
 - Python, Flask, Pandas, NumPy
