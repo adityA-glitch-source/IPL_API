@@ -2,7 +2,7 @@
 
 A RESTful API built with Flask and Pandas serving IPL statistics from 2008–2022. Handles over 2,000 daily requests across 7 endpoints with optimized JSON serialization, in-memory caching, and modular routing.
 
-**Live URL:** https://ipl-api-t4ek.onrender.com
+**Live API:** https://ipl-api-t4ek.onrender.com
 
 ## Tech Stack
 
@@ -23,7 +23,16 @@ A RESTful API built with Flask and Pandas serving IPL statistics from 2008–202
 | GET | `/api/top-performers?season=&top=` | Top batsmen, bowlers, and Player of the Match per season |
 | GET | `/health` | Health check |
 
-## Setup
+## Example Requests
+
+```bash
+GET https://ipl-api-t4ek.onrender.com/api/teams
+GET https://ipl-api-t4ek.onrender.com/api/teamVteam?team1=Mumbai Indians&team2=Chennai Super Kings
+GET https://ipl-api-t4ek.onrender.com/api/batting-record?batsman=V Kohli
+GET https://ipl-api-t4ek.onrender.com/api/top-performers?season=2022&top=5
+```
+
+## Setup (Local)
 
 ```bash
 pip install -r requirements.txt
@@ -31,19 +40,6 @@ python app.py
 ```
 
 API runs on `http://localhost:5000`
-
-## Example Requests
-
-```bash
-# Head-to-head
-GET /api/teamVteam?team1=Mumbai Indians&team2=Chennai Super Kings
-
-# Batsman stats
-GET /api/batting-record?batsman=V Kohli
-
-# Season top performers
-GET /api/top-performers?season=2022&top=5
-```
 
 ## Key Design Decisions
 
@@ -55,7 +51,7 @@ GET /api/top-performers?season=2022&top=5
 ## Project Structure
 
 ```
-ipl_api/
+IPL_API/
 ├── app.py           # Flask routes, caching, error handlers
 ├── ipl_data.py      # Data loading, all stat computation functions
 └── requirements.txt
